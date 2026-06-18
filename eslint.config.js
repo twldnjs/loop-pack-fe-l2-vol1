@@ -1,16 +1,22 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import eslintConfigPrettier from 'eslint-config-prettier'
+import js from '@eslint/js';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default tseslint.config(
   { ignores: ['dist'] },
 
   {
     files: ['**/*.{ts,tsx}'],
-    extends: [js.configs.recommended, ...tseslint.configs.strictTypeChecked],
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
+      react.configs.flat.recommended,
+      react.configs.flat['jsx-runtime'],
+    ],
     languageOptions: {
       ecmaVersion: 2023,
       globals: globals.browser,
@@ -18,6 +24,9 @@ export default tseslint.config(
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
+    },
+    settings: {
+      react: { version: '19.2' },
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -35,10 +44,7 @@ export default tseslint.config(
       ],
 
       eqeqeq: 'error',
-      '@typescript-eslint/no-confusing-void-expression': [
-        'error',
-        { ignoreArrowShorthand: true },
-      ],
+      'no-console': ['error', { allow: ['warn', 'error'] }],
 
       'react-refresh/only-export-components': [
         'warn',
@@ -47,6 +53,5 @@ export default tseslint.config(
     },
   },
 
-  // eslint-config-prettier는 반드시 마지막 — 앞 포맷 룰을 꺼야 Prettier와 충돌 안 남
   eslintConfigPrettier,
-)
+);
