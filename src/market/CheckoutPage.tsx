@@ -18,6 +18,8 @@ const PAYMENT_LABEL: Record<PaymentMethod, string> = {
   kakao: '카카오페이',
 };
 
+const PAYMENT_METHODS: PaymentMethod[] = ['card', 'transfer', 'kakao'];
+
 // 배송지 — 접기/펼치기와 선택 요약은 스스로 책임진다.
 // 단, 실제 선택 동작(onSelectAddress)은 AddressForm → AddressField 로 통과시킨다.
 function DeliverySection({
@@ -222,7 +224,7 @@ export function CheckoutPage() {
 
       <div className="section">
         <h2>결제수단</h2>
-        {(['card', 'transfer', 'kakao'] as PaymentMethod[]).map((m) => (
+        {PAYMENT_METHODS.map((m) => (
           <label key={m}>
             <input
               type="radio"
