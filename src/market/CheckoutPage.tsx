@@ -137,7 +137,11 @@ export function CheckoutPage() {
     ? Math.min(pointInput, member.point, itemTotal)
     : 0;
 
-  const finalPrice = itemTotal + shippingFee - couponDiscount - pointDiscount;
+  const priceBeforeVip =
+    itemTotal + shippingFee - couponDiscount - pointDiscount;
+
+  const finalPrice =
+    member.grade === 'VIP' ? Math.round(priceBeforeVip * 0.9) : priceBeforeVip;
 
   const applyCoupon = () => {
     const found = COUPONS.find((c) => c.code === couponCode.trim());
@@ -262,7 +266,7 @@ export function CheckoutPage() {
         ) : null}
         <div className="total">
           <span>최종 결제 금액</span>
-          <Price amount={finalPrice} member={member} />
+          <Price amount={finalPrice} />
         </div>
       </div>
 
