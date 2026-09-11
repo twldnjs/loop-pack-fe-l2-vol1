@@ -11,6 +11,7 @@ export const stories = {
   'products-skeleton/partial-row': ProductsSkeletonPartialRow,
 } satisfies Record<string, () => ReactElement>;
 
+// 자가 검증용 소스 변경. 이 PR의 diff에 src/**가 있으므로 e2e가 돌아야 한다.
 export type StoryName = keyof typeof stories;
 
 export function isStoryName(value: string): value is StoryName {
