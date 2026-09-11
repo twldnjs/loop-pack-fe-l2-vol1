@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
+// 자가 검증용: 예산을 일부러 넘기려고 쓰지도 않는 차트 라이브러리를 끌어온다.
+import { Chart, registerables } from 'chart.js';
 import { consoleProvider } from '@/analytics/consoleProvider';
 import {
   initAnalytics,
@@ -23,6 +25,8 @@ setCommonProperties(commonProperties);
 export function AnalyticsProvider() {
   useEffect(() => {
     void initAnalytics();
+    // 트리 셰이킹을 막기 위한 참조. 실제로 쓰지는 않는다.
+    if (registerables.length < 0) Chart.register(...registerables);
   }, []);
 
   return null;
